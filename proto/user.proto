@@ -1,0 +1,224 @@
+syntax = "proto3";
+
+option csharp_namespace = "Temperature";
+
+package user;
+
+// The greeting service definition.
+
+service User {
+  rpc logIn (UserInfo) returns (UserReply);
+}
+
+service Device {
+  rpc getListInfo (DeviceRequest) returns (DeviceReply);
+  rpc addDevice (DeviceInfo) returns (DeviceReply);
+  rpc updateDevice (DeviceInfo) returns (DeviceReply);
+}
+
+service Person {
+  rpc getListPerson (PersonRequest) returns (PersonReply);
+  rpc addPerson (PersonInfo) returns (PersonReply);
+  rpc updatePerson (PersonInfo) returns (PersonReply);
+  rpc deletePerson (PersonInfo) returns (PersonReply);
+}
+
+service Face {
+  rpc getListFace (FaceRequest) returns (FaceReply);
+  rpc addFace (FaceRequest) returns (FaceReply);
+  rpc deleteFace (FaceRequest) returns (FaceReply);
+}
+
+service Area {
+  rpc getListArea (AreaRequest) returns (AreaReply);
+  rpc addArea (AreaInfo) returns (AreaReply);
+  rpc updateArea (AreaInfo) returns (AreaReply);
+  rpc deleteArea (AreaInfo) returns (AreaReply);
+  rpc existArea (AreaInfo) returns (AreaReply);
+}
+
+service Report {
+  rpc getReportTemperature (ReportRequest) returns (ReportTemperatureReply);
+  rpc getStatisticsTemperature (ReportRequest) returns (ReportStatisticReply);
+  rpc attendanceInOut (ReportRequest) returns (ReportAttendaceInOutReply);
+  rpc reportTempMinMax (ReportRequest) returns (ReportTempMinMaxReply);
+}
+
+// -- State -- //
+message Response {
+  ResponseState state = 1;
+  string message = 2;
+}
+
+enum ResponseState {
+  SUCCESS = 0;
+  FAIL = 1;
+}
+
+enum DeviceState {
+  ONLINE = 0;
+  OFFLINE = 1;
+}
+// -- **** --- //
+
+//-- User -- //
+message UserRequest {
+    string username = 1;
+    string password = 2;
+}
+message UserInfo {
+    int32 id = 1;
+    string username = 2;
+    string email  = 3;
+    string description = 4;
+    string codegroup = 5;
+    string codeuser = 6;
+    string fullName = 7;
+    int32 roleid = 8;
+    string password = 9;
+}
+message UserReply {
+  Response response = 1;
+  UserInfo info = 2;
+  repeated MenuInfo menus = 3;
+}
+
+message  MenuInfo {
+  int32 id = 1;
+  string name = 2;
+  string link = 3;
+  string icon = 4;
+  int32 index = 5;
+  string description = 6;
+  int32 active = 7;
+  string iconMenu = 8;
+}
+// --- ***** --- //
+
+// --- Device --- //
+message DeviceRequest {
+  string groupCode = 1;
+  string deviceCode = 2;
+  int32 roleId = 3;
+  DeviceState state = 4;
+}
+message DeviceReply {
+  Response response = 1;
+  repeated DeviceInfo data = 2;
+}
+message DeviceInfo {
+  int32 idDevice = 1;
+  string codeDevice = 2;
+  string codeGroup = 3;
+  string codeArea = 4;
+  string description = 5;
+  string mac = 6;
+  string username = 7;
+  string password = 8;
+  bool charging = 9;
+  float latitude = 10;
+  float longitude = 11;
+  int32 percentBattery = 12;
+  string timeBegin = 13;
+  string timeEnd = 14;
+}
+// --- **** --- //
+
+// -- Person -- //
+message PersonRequest {
+  string groupCode = 1;
+}
+message PersonReply {
+  Response response = 1;
+  repeated PersonInfo data = 2;
+}
+message PersonInfo {
+  string namePerson = 1;
+  string codePerson = 2;
+  string codeGroup = 3;
+  string icon = 4;
+  string description = 5;
+  string idPerson2 = 6;
+}
+// -- ****** -- //
+
+// -- Face -- //
+message FaceRequest {
+  string codePerson = 1;
+}
+message FaceReply {
+  Response response = 1;
+  repeated FaceInfo data = 2;
+}
+message FaceInfo {
+  int32 idFace = 1;
+  string linkFile = 2;
+  string timeBegin = 3;
+  string timeEnd = 4;
+}
+// -- **** -- //
+
+// -- Area -- //
+message AreaRequest {
+  string groupCode = 1;
+}
+message AreaReply {
+  Response response = 1;
+  repeated AreaInfo data = 2;
+}
+message AreaInfo {
+  string nameArea = 1;
+  string codeArea = 2;
+  string description = 3;
+  float latitude = 4;
+  float longitude = 5;
+  string codeGroup = 6;
+}
+
+// -- **** -- //
+
+// -- Report -- //
+message ReportRequest {
+  string CodeGroups = 1;
+  string CodeDevices = 2;
+  string CodeAreas = 3;
+  string CodePersons = 4;
+  string TimeBegin = 5;
+  string TimeEnd = 6;
+  float TemperatureLow = 7;      
+  float TemperatureHigh = 8;
+}
+
+message ReportTemperatureReply {
+  Response response = 1;
+  repeated ReportInfo data = 2;
+}
+
+message ReportInfo {
+  string CodeDevice = 1;
+  string LinkFile = 2;
+  float Temperature = 3;
+  string TimePost = 4;
+  string CodeGroup = 5;
+  string CodeArea = 6;
+  string CodePerson = 7;
+  string NamePerson = 8;
+  float Latitude = 9;
+  float Longitude = 10;
+}
+
+message ReportStatisticReply {
+  Response response = 1;
+  repeated ReportInfo data = 2;
+}
+
+message ReportAttendaceInOutReply {
+  Response response = 1;
+  repeated ReportInfo data = 2;
+}
+
+message ReportTempMinMaxReply {
+  Response response = 1;
+  repeated ReportInfo data = 2;
+}
+// -- *** -- //
