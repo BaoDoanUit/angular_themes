@@ -945,6 +945,7 @@ export class DeviceRequest implements GrpcMessage {
     _instance.deviceCode = _instance.deviceCode || '';
     _instance.roleId = _instance.roleId || 0;
     _instance.state = _instance.state || 0;
+    _instance.areaCode = _instance.areaCode || '';
   }
 
   /**
@@ -971,6 +972,9 @@ export class DeviceRequest implements GrpcMessage {
           break;
         case 4:
           _instance.state = _reader.readEnum();
+          break;
+        case 5:
+          _instance.areaCode = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -1001,12 +1005,16 @@ export class DeviceRequest implements GrpcMessage {
     if (_instance.state) {
       _writer.writeEnum(4, _instance.state);
     }
+    if (_instance.areaCode) {
+      _writer.writeString(5, _instance.areaCode);
+    }
   }
 
   private _groupCode?: string;
   private _deviceCode?: string;
   private _roleId?: number;
   private _state?: DeviceState;
+  private _areaCode?: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -1018,6 +1026,7 @@ export class DeviceRequest implements GrpcMessage {
     this.deviceCode = _value.deviceCode;
     this.roleId = _value.roleId;
     this.state = _value.state;
+    this.areaCode = _value.areaCode;
     DeviceRequest.refineValues(this);
   }
   get groupCode(): string | undefined {
@@ -1044,6 +1053,12 @@ export class DeviceRequest implements GrpcMessage {
   set state(value: DeviceState | undefined) {
     this._state = value;
   }
+  get areaCode(): string | undefined {
+    return this._areaCode;
+  }
+  set areaCode(value: string | undefined) {
+    this._areaCode = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -1063,7 +1078,8 @@ export class DeviceRequest implements GrpcMessage {
       groupCode: this.groupCode,
       deviceCode: this.deviceCode,
       roleId: this.roleId,
-      state: this.state
+      state: this.state,
+      areaCode: this.areaCode
     };
   }
 
@@ -1084,6 +1100,7 @@ export module DeviceRequest {
     deviceCode?: string;
     roleId?: number;
     state?: DeviceState;
+    areaCode?: string;
   }
 }
 

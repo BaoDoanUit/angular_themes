@@ -101,6 +101,7 @@ message DeviceRequest {
   string deviceCode = 2;
   int32 roleId = 3;
   DeviceState state = 4;
+  string areaCode = 5;
 }
 message DeviceReply {
   Response response = 1;

@@ -1,0 +1,51 @@
+<div class="row" *ngIf="user">
+    <div class="col-4">
+        <h1>Your profile</h1>
+    </div>
+    <div class="col-8">
+        <div class="alert alert-info" *ngIf="editForm.dirty">
+            <strong>Information: </strong> You have made changes. Any unsave will be lost
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <img src="./assets/images.jpg" alt="" class="card-img-top img-thumbnail">
+            <div class="card-body">
+                <div>
+                    <strong>Group:</strong>
+                    <p>{{user.codegroup}}</p>
+                </div>
+                <div>
+                    <strong>Description:</strong>
+                    <p>{{user.description}}</p>
+                </div>
+                <div>
+                    <strong>Code:</strong>
+                    <p>{{user.codeuser}}</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <tabset class="member-tabset">
+            <tab heading='About {{user.fullName}}' >
+                <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+                    <h4 class="mt-2">Description</h4>
+                    <textarea 
+                    class="form-control" 
+                    [(ngModel)]="user.description" 
+                    name="introduction" rows="6"></textarea>
+                    <h4 class="mt-2">Group</h4>
+                    <input class="form-control" 
+                    [(ngModel)]="user.codegroup" name="group" />
+                </form>
+            </tab>
+            <tab heading="Photo">
+                <p>This feature will update soon</p>
+            </tab>
+        </tabset>
+    </div>
+</div>

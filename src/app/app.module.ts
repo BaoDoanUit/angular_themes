@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core'
-
+import { NgxSpinnerModule} from 'ngx-spinner'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { NavComponent } from './nav/nav.component'
@@ -29,8 +29,10 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { MemberDetailComponent } from './members/member-detail/member-detail.component'
 import { ListsComponent } from './lists/lists.component'
 import { MessagesComponent } from './messages/messages.component'
-import { ToastrModule } from 'ngx-toastr'
-import { SharedModule } from './_modules/shared.module'
+import { SharedModule } from './_modules/shared.module';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component'
+import { LoadingInterceptor } from './_interceptors/loading.interceptor'
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,8 @@ import { SharedModule } from './_modules/shared.module'
     MemberDetailComponent,
     ListsComponent,
     MessagesComponent,
+    MemberCardComponent,
+    MemberEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +52,7 @@ import { SharedModule } from './_modules/shared.module'
     BrowserAnimationsModule,
     FormsModule,
     SharedModule,
+    NgxSpinnerModule
   ],
   providers: [
     {
@@ -82,6 +87,11 @@ import { SharedModule } from './_modules/shared.module'
     {
       provide: GRPC_INTERCEPTORS,
       useClass: GrpcConsoleLoggerInterceptor,
+      multi: true,
+    },
+    {
+      provide: GRPC_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
     {

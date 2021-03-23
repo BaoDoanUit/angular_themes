@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { ResponseState, UserInfo } from 'src/proto/user.pb'
 import { UserClient } from 'src/proto/user.pbsc'
-import { map } from 'rxjs/operators'
 import { Router } from '@angular/router'
 import { ToastrService } from 'ngx-toastr'
+import { MembersService } from '../_services/members.service'
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -14,17 +14,20 @@ export class NavComponent implements OnInit {
   public info = new UserInfo()
   loggedIn: boolean = false
   constructor(
-    private userClient: UserClient,
+    private memberService: MembersService,
     private router: Router,
     private toastr: ToastrService,
   ) {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if(localStorage.getItem('user')){
+      this.loggedIn = true;
+    }
+  }
   logIn() {
     console.log('login', this.model)
     this.info.username = this.model.username
     this.info.password = this.model.password
-    this.userClient.logIn(this.info).subscribe(
+    this.memberService.logIn(this.info).subscribe(
       (res) => {
         console.log(res)
         if (res.response?.state == ResponseState.SUCCESS) {
@@ -37,8 +40,7 @@ export class NavComponent implements OnInit {
         }
       },
       (err) => {
-        alert(err)
-        this.toastr.error(err)
+        this.toastr.error(err.toString());
       },
     )
   }
@@ -47,7 +49,6 @@ export class NavComponent implements OnInit {
     this.loggedIn = false
     this.router.navigateByUrl('/')
   }
-
   getCurrentUser() {
     return localStorage.getItem('user')
   }

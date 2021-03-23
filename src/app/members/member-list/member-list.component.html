@@ -1,1 +1,5 @@
-<p>member-list works!</p>
+<div class="row">
+    <div *ngFor="let info of devices$| async" class="col-3">
+        <member-card [member]="info"></member-card>
+    </div>
+</div>
