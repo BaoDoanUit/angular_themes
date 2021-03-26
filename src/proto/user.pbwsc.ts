@@ -10,6 +10,25 @@ import * as thisProto from './user.pb';
 /**
  * Client definition for use in worker
  */
+export const GrpcWorkerAccountClientDef: GrpcWorkerServiceClientDef = {
+  serviceId: 'user.Account',
+  methods: {
+    '/user.Account/register': {
+      type: GrpcCallType.unary,
+      reqclss: thisProto.UserInfo,
+      resclss: thisProto.UserReply
+    },
+    '/user.Account/signIn': {
+      type: GrpcCallType.unary,
+      reqclss: thisProto.UserInfo,
+      resclss: thisProto.UserReply
+    }
+  }
+};
+
+/**
+ * Client definition for use in worker
+ */
 export const GrpcWorkerUserClientDef: GrpcWorkerServiceClientDef = {
   serviceId: 'user.User',
   methods: {
@@ -157,6 +176,11 @@ export const GrpcWorkerReportClientDef: GrpcWorkerServiceClientDef = {
       type: GrpcCallType.unary,
       reqclss: thisProto.ReportRequest,
       resclss: thisProto.ReportTempMinMaxReply
+    },
+    '/user.Report/exportFileAttendance': {
+      type: GrpcCallType.unary,
+      reqclss: thisProto.ReportRequest,
+      resclss: thisProto.FileOutput
     }
   }
 };

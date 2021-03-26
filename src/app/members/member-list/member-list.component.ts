@@ -20,12 +20,10 @@ export class MemberListComponent implements OnInit {
   
   constructor(
     private deviceService: DevicesService,
-    private memberService: MembersService,
   ) {}
 
   ngOnInit(): void {
     this.loadDevices();
-    this.init();
   }
 
   loadDevices() {
@@ -34,11 +32,5 @@ export class MemberListComponent implements OnInit {
     this.devices$ = this.deviceService.getDevices(request);
   }
 
-  init() {
-    let request: PersonRequest = new PersonRequest()
-    request.groupCode = 'stvg'
-    this.memberService.getPersons(request).subscribe((res: PersonReply) => {
-      console.log(res);
-    })
-  }
+ 
 }

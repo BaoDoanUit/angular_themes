@@ -7,15 +7,11 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class MembersService {
-
+  
   persons: PersonReply= new PersonReply();
 
-  constructor(private userClient: UserClient, private personClient : PersonClient) {
+  constructor(private personClient : PersonClient) {
     
-  }
-
-  logIn(request: UserInfo) {
-    return this.userClient.logIn(request);
   }
 
   getPersons(request: PersonRequest) {
@@ -26,7 +22,6 @@ export class MembersService {
         this.persons = response;
         // console.log(response);
         console.log('get data');
-
         return this.persons;
       })
     )

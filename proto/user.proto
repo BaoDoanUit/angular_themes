@@ -5,6 +5,10 @@ option csharp_namespace = "Temperature";
 package user;
 
 // The greeting service definition.
+service Account {
+  rpc register(UserInfo) returns (UserReply);
+  rpc signIn(UserInfo) returns (UserReply);
+}
 
 service User {
   rpc logIn (UserInfo) returns (UserReply);
@@ -42,6 +46,7 @@ service Report {
   rpc getStatisticsTemperature (ReportRequest) returns (ReportStatisticReply);
   rpc attendanceInOut (ReportRequest) returns (ReportAttendaceInOutReply);
   rpc reportTempMinMax (ReportRequest) returns (ReportTempMinMaxReply);
+  rpc exportFileAttendance (ReportRequest) returns (FileOutput);
 }
 
 // -- State -- //
@@ -76,6 +81,9 @@ message UserInfo {
     string fullName = 7;
     int32 roleid = 8;
     string password = 9;
+    string passwordHash = 10;
+    string passwordSalt = 11;
+    string token = 12;
 }
 message UserReply {
   Response response = 1;
@@ -221,5 +229,9 @@ message ReportAttendaceInOutReply {
 message ReportTempMinMaxReply {
   Response response = 1;
   repeated ReportInfo data = 2;
+}
+
+message FileOutput {
+  bytes Content = 1;
 }
 // -- *** -- //

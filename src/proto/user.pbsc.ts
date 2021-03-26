@@ -21,6 +21,7 @@ import { Metadata } from 'grpc-web';
 import { Observable } from 'rxjs';
 import * as thisProto from './user.pb';
 import {
+  GRPC_ACCOUNT_CLIENT_SETTINGS,
   GRPC_USER_CLIENT_SETTINGS,
   GRPC_DEVICE_CLIENT_SETTINGS,
   GRPC_PERSON_CLIENT_SETTINGS,
@@ -28,6 +29,103 @@ import {
   GRPC_AREA_CLIENT_SETTINGS,
   GRPC_REPORT_CLIENT_SETTINGS
 } from './user.pbconf';
+/**
+ * Service client implementation for user.Account
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class AccountClient {
+  private client: GrpcClient;
+
+  constructor(
+    @Optional()
+    @Inject(GRPC_ACCOUNT_CLIENT_SETTINGS)
+    settings: GrpcClientSettings,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('user.Account', settings);
+  }
+
+  /**
+   * Unary RPC for /user.Account/register
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.UserReply>
+   */
+  register(
+    requestData: thisProto.UserInfo,
+    requestMetadata: Metadata = {}
+  ): Observable<thisProto.UserReply> {
+    return this.register$eventStream(requestData, requestMetadata).pipe(
+      throwStatusErrors(),
+      takeMessages()
+    );
+  }
+
+  /**
+   * Unary RPC for /user.Account/register
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<GrpcEvent<thisProto.UserReply>>
+   */
+  register$eventStream(
+    requestData: thisProto.UserInfo,
+    requestMetadata: Metadata = {}
+  ): Observable<GrpcEvent<thisProto.UserReply>> {
+    return this.handler.handle({
+      type: GrpcCallType.unary,
+      client: this.client,
+      path: '/user.Account/register',
+      requestData,
+      requestMetadata,
+      requestClass: thisProto.UserInfo,
+      responseClass: thisProto.UserReply
+    });
+  }
+
+  /**
+   * Unary RPC for /user.Account/signIn
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.UserReply>
+   */
+  signIn(
+    requestData: thisProto.UserInfo,
+    requestMetadata: Metadata = {}
+  ): Observable<thisProto.UserReply> {
+    return this.signIn$eventStream(requestData, requestMetadata).pipe(
+      throwStatusErrors(),
+      takeMessages()
+    );
+  }
+
+  /**
+   * Unary RPC for /user.Account/signIn
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<GrpcEvent<thisProto.UserReply>>
+   */
+  signIn$eventStream(
+    requestData: thisProto.UserInfo,
+    requestMetadata: Metadata = {}
+  ): Observable<GrpcEvent<thisProto.UserReply>> {
+    return this.handler.handle({
+      type: GrpcCallType.unary,
+      client: this.client,
+      path: '/user.Account/signIn',
+      requestData,
+      requestMetadata,
+      requestClass: thisProto.UserInfo,
+      responseClass: thisProto.UserReply
+    });
+  }
+}
 /**
  * Service client implementation for user.User
  */
@@ -913,6 +1011,45 @@ export class ReportClient {
       requestMetadata,
       requestClass: thisProto.ReportRequest,
       responseClass: thisProto.ReportTempMinMaxReply
+    });
+  }
+
+  /**
+   * Unary RPC for /user.Report/exportFileAttendance
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.FileOutput>
+   */
+  exportFileAttendance(
+    requestData: thisProto.ReportRequest,
+    requestMetadata: Metadata = {}
+  ): Observable<thisProto.FileOutput> {
+    return this.exportFileAttendance$eventStream(
+      requestData,
+      requestMetadata
+    ).pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary RPC for /user.Report/exportFileAttendance
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<GrpcEvent<thisProto.FileOutput>>
+   */
+  exportFileAttendance$eventStream(
+    requestData: thisProto.ReportRequest,
+    requestMetadata: Metadata = {}
+  ): Observable<GrpcEvent<thisProto.FileOutput>> {
+    return this.handler.handle({
+      type: GrpcCallType.unary,
+      client: this.client,
+      path: '/user.Report/exportFileAttendance',
+      requestData,
+      requestMetadata,
+      requestClass: thisProto.ReportRequest,
+      responseClass: thisProto.FileOutput
     });
   }
 }

@@ -226,6 +226,13 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/platform-browser-dynamic@^10.1.4":
+  version "10.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-10.2.4.tgz#c2fc87f9edf862a9f310f34a7a1f9082b259f73a"
+  integrity sha512-+oON9ujv9EOC3yJVgnV/vy3262dpMKBFlQ+dHcr5rfk2WpsnyJ26R+Nhkaug9FEdmSo9w+GqowF5bodrtTOTlA==
+  dependencies:
+    tslib "^2.0.0"
+
 "@angular/platform-browser-dynamic@~11.0.1":
   version "11.0.9"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-11.0.9.tgz#280f5733ffd0135ad232d56022d445b57cee976d"
@@ -2879,6 +2886,11 @@ core-js@3.6.5:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
   integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
+
+core-js@^2.5.4:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
+  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -6166,6 +6178,17 @@ ngx-bootstrap@^6.2.0:
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-6.2.0.tgz#678b274dabfda31411eb1234c981d1967750d890"
   integrity sha512-5WKHo6/ltkenw4UyXZwED8rODCgp2RGbWurzYzZsF/gH1JO5SN7TJ+AL6kXYk6XM42sDA2WhN9Db+ZPNjiyHnA==
 
+ngx-localstorage@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/ngx-localstorage/-/ngx-localstorage-3.3.0.tgz#aaee1227d6fc79c8dacae7380316416ef6f75845"
+  integrity sha512-fMYymnqrGXgX5/Rs1/sCl2gt0N6/C3VGjVN6RP5/oR2cxKNJmdG4s9L9asDU9ewanicjTfPmpWzUo6CifgLWgg==
+  dependencies:
+    "@angular/platform-browser-dynamic" "^10.1.4"
+    core-js "^2.5.4"
+    rxjs "^6.6.3"
+    tslib "^2.0.0"
+    zone.js "~0.10.3"
+
 ngx-spinner@^10.0.1:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/ngx-spinner/-/ngx-spinner-10.0.1.tgz#f08932a34bf98b302488a9c475584970ed386d23"
@@ -7880,7 +7903,7 @@ rxjs@6.6.3:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^6.5.3, rxjs@^6.6.0, rxjs@~6.6.0:
+rxjs@^6.5.3, rxjs@^6.6.0, rxjs@^6.6.3, rxjs@~6.6.0:
   version "6.6.6"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.6.tgz#14d8417aa5a07c5e633995b525e1e3c0dec03b70"
   integrity sha512-/oTwee4N4iWzAMAL9xdGKjkEHmIwupR3oXbQjCKywF1BeFohswF3vZdogbmEF6pZkOsXTzWkrZszrWpQTByYVg==

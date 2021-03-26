@@ -29,6 +29,7 @@
     "grpc": "^1.24.5",
     "grpc-web": "^1.2.1",
     "ngx-bootstrap": "^6.2.0",
+    "ngx-localstorage": "^3.3.0",
     "ngx-spinner": "^10.0.1",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.6.0",

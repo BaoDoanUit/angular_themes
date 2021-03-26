@@ -20,7 +20,7 @@
                 </ng-container>
             </ul>
             <div class="dropdown" *ngIf="loggedIn" dropdown>
-                <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{info.username}}</a>
+                <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{this.getCurrentUser().username}}</a>
                 <div class="dropdown-menu mt-3" *dropdownMenu>
                     <a routerLink='/member/edit' class="dropdown-item">Edit Profile</a>
                     <div class="dropdown-divider"></div>
@@ -29,9 +29,9 @@
             </div>
             <form *ngIf="!loggedIn" #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="logIn()"
                 autocomplete="off">
-                <input name="username" 
-                [(ngModel)]="model.username" 
-                class="form-control mr-sm-2" 
+                <input name="username"
+                [(ngModel)]="model.username"
+                class="form-control mr-sm-2"
                 type="text"
                 placeholder="Username" 
                 ria-label="Search">

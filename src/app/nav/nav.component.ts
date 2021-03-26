@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core'
-import { ResponseState, UserInfo } from 'src/proto/user.pb'
-import { UserClient } from 'src/proto/user.pbsc'
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { ResponseState, UserInfo, UserReply } from 'src/proto/user.pb'
 import { Router } from '@angular/router'
 import { ToastrService } from 'ngx-toastr'
-import { MembersService } from '../_services/members.service'
+import { AuthService } from '../_services/auth.service'
+import { AccountService } from '../_services/account.service'
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -11,45 +11,42 @@ import { MembersService } from '../_services/members.service'
 })
 export class NavComponent implements OnInit {
   public model: any = {}
-  public info = new UserInfo()
   loggedIn: boolean = false
   constructor(
-    private memberService: MembersService,
+    private accountService: AccountService,
     private router: Router,
     private toastr: ToastrService,
+    private authService: AuthService,
   ) {}
+ 
   ngOnInit(): void {
-    if(localStorage.getItem('user')){
-      this.loggedIn = true;
-    }
+    console.log('nav')
+    this.loggedIn = this.authService.getUser() ? true : false
   }
   logIn() {
-    console.log('login', this.model)
-    this.info.username = this.model.username
-    this.info.password = this.model.password
-    this.memberService.logIn(this.info).subscribe(
-      (res) => {
-        console.log(res)
-        if (res.response?.state == ResponseState.SUCCESS) {
-          localStorage.setItem('user', JSON.stringify(res.info))
-          this.loggedIn = true
-          this.router.navigateByUrl('/members')
-          console.log(res)
-        } else {
-          this.toastr.warning(res.response?.message)
+    let user: UserInfo = new UserInfo()
+    user.username = this.model.username
+    user.password = this.model.password
+    this.accountService.logIn(user).subscribe((reply: UserReply) => {
+      if (reply.response?.state == ResponseState.SUCCESS) {
+        const user = reply.info
+        if (user) {
+          this.authService.authenticate(user, () => {
+            this.loggedIn = true
+            this.router.navigateByUrl('/members')
+          })
         }
-      },
-      (err) => {
-        this.toastr.error(err.toString());
-      },
-    )
+      } else {
+        this.toastr.error(reply.response?.message)
+      }
+    })
   }
   logOut() {
-    localStorage.removeItem('user')
+    this.authService.logOut()
     this.loggedIn = false
     this.router.navigateByUrl('/')
   }
   getCurrentUser() {
-    return localStorage.getItem('user')
+    return this.authService.getUser();
   }
 }

@@ -300,6 +300,9 @@ export class UserInfo implements GrpcMessage {
     _instance.fullName = _instance.fullName || '';
     _instance.roleid = _instance.roleid || 0;
     _instance.password = _instance.password || '';
+    _instance.passwordHash = _instance.passwordHash || '';
+    _instance.passwordSalt = _instance.passwordSalt || '';
+    _instance.token = _instance.token || '';
   }
 
   /**
@@ -342,6 +345,15 @@ export class UserInfo implements GrpcMessage {
         case 9:
           _instance.password = _reader.readString();
           break;
+        case 10:
+          _instance.passwordHash = _reader.readString();
+          break;
+        case 11:
+          _instance.passwordSalt = _reader.readString();
+          break;
+        case 12:
+          _instance.token = _reader.readString();
+          break;
         default:
           _reader.skipField();
       }
@@ -383,6 +395,15 @@ export class UserInfo implements GrpcMessage {
     if (_instance.password) {
       _writer.writeString(9, _instance.password);
     }
+    if (_instance.passwordHash) {
+      _writer.writeString(10, _instance.passwordHash);
+    }
+    if (_instance.passwordSalt) {
+      _writer.writeString(11, _instance.passwordSalt);
+    }
+    if (_instance.token) {
+      _writer.writeString(12, _instance.token);
+    }
   }
 
   private _id?: number;
@@ -394,6 +415,9 @@ export class UserInfo implements GrpcMessage {
   private _fullName?: string;
   private _roleid?: number;
   private _password?: string;
+  private _passwordHash?: string;
+  private _passwordSalt?: string;
+  private _token?: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -410,6 +434,9 @@ export class UserInfo implements GrpcMessage {
     this.fullName = _value.fullName;
     this.roleid = _value.roleid;
     this.password = _value.password;
+    this.passwordHash = _value.passwordHash;
+    this.passwordSalt = _value.passwordSalt;
+    this.token = _value.token;
     UserInfo.refineValues(this);
   }
   get id(): number | undefined {
@@ -466,6 +493,24 @@ export class UserInfo implements GrpcMessage {
   set password(value: string | undefined) {
     this._password = value;
   }
+  get passwordHash(): string | undefined {
+    return this._passwordHash;
+  }
+  set passwordHash(value: string | undefined) {
+    this._passwordHash = value;
+  }
+  get passwordSalt(): string | undefined {
+    return this._passwordSalt;
+  }
+  set passwordSalt(value: string | undefined) {
+    this._passwordSalt = value;
+  }
+  get token(): string | undefined {
+    return this._token;
+  }
+  set token(value: string | undefined) {
+    this._token = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -490,7 +535,10 @@ export class UserInfo implements GrpcMessage {
       codeuser: this.codeuser,
       fullName: this.fullName,
       roleid: this.roleid,
-      password: this.password
+      password: this.password,
+      passwordHash: this.passwordHash,
+      passwordSalt: this.passwordSalt,
+      token: this.token
     };
   }
 
@@ -516,6 +564,9 @@ export module UserInfo {
     fullName?: string;
     roleid?: number;
     password?: string;
+    passwordHash?: string;
+    passwordSalt?: string;
+    token?: string;
   }
 }
 
@@ -4022,5 +4073,116 @@ export module ReportTempMinMaxReply {
   export interface AsObject {
     response?: Response.AsObject;
     data?: ReportInfo.AsObject[];
+  }
+}
+
+/**
+ * Message implementation for user.FileOutput
+ */
+export class FileOutput implements GrpcMessage {
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new FileOutput();
+    FileOutput.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: FileOutput) {
+    _instance.content = _instance.content || new Uint8Array();
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: FileOutput,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.content = _reader.readBytes();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    FileOutput.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: FileOutput, _writer: BinaryWriter) {
+    if (_instance.content && _instance.content.length) {
+      _writer.writeBytes(1, _instance.content);
+    }
+  }
+
+  private _content?: Uint8Array;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of FileOutput to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<FileOutput>) {
+    _value = _value || {};
+    this.content = _value.content;
+    FileOutput.refineValues(this);
+  }
+  get content(): Uint8Array | undefined {
+    return this._content;
+  }
+  set content(value: Uint8Array | undefined) {
+    this._content = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    FileOutput.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): FileOutput.AsObject {
+    return {
+      content: this.content ? this.content.subarray(0) : new Uint8Array()
+    };
+  }
+
+  /**
+   * JSON serializer
+   * Only intended to be used by `JSON.stringify` function. If you want to cast message to standard JavaScript object, use `toObject()` instead
+   */
+  toJSON() {
+    return this.toObject();
+  }
+}
+export module FileOutput {
+  /**
+   * Standard JavaScript object representation for FileOutput
+   */
+  export interface AsObject {
+    content?: Uint8Array;
   }
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import {
   NgxGalleryAnimation,
   NgxGalleryImage,
   NgxGalleryOptions,
 } from '@kolkov/ngx-gallery'
+import { DevicesService } from 'src/app/_services/devices.service'
 import { DeviceInfo, DeviceRequest } from 'src/proto/user.pb'
 import { DeviceClient } from 'src/proto/user.pbsc'
 
@@ -14,14 +15,14 @@ import { DeviceClient } from 'src/proto/user.pbsc'
   styleUrls: ['./member-detail.component.css'],
 })
 export class MemberDetailComponent implements OnInit {
-  public deviceRequest = new DeviceRequest()
   public deviceInfo = new DeviceInfo()
   galleryOptions!: NgxGalleryOptions[]
   galleryImages!: NgxGalleryImage[]
 
   constructor(
-    private deviceClient: DeviceClient,
+    private deviceService: DevicesService,
     private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -35,10 +36,9 @@ export class MemberDetailComponent implements OnInit {
         thumbnailsColumns: 6,
         imageAnimation: NgxGalleryAnimation.Slide,
         preview: false,
-      }
-    ];
-    this.galleryImages = this.getImages();
-
+      },
+    ]
+    this.galleryImages = this.getImages()
   }
 
   getImages(): NgxGalleryImage[] {
@@ -50,18 +50,16 @@ export class MemberDetailComponent implements OnInit {
         big: '/assets/images.jpg',
       })
     }
-    console.log(imagesUrl);
+    console.log(imagesUrl)
     return imagesUrl
   }
 
   loadDevice() {
-    this.deviceRequest.groupCode = 'stvg'
-    this.deviceRequest.deviceCode = this.route.snapshot.paramMap
-      .get('code')
-      ?.toString()
-    console.log('device', this.deviceRequest)
-    this.deviceClient.getListInfo(this.deviceRequest).subscribe((res) => {
-      this.deviceInfo = res.data![0]
-    })
+    const code = this.route.snapshot.paramMap.get('code')?.toString()
+    if (code) {
+      this.deviceInfo = this.deviceService.getDevice(code);
+    } else {
+      this.router.navigateByUrl('members');
+    }
   }
 }
