@@ -37,6 +37,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { LoadingInterceptor } from './_interceptors/loading.interceptor'
 import { ErrorInterceptor } from './_interceptors/error.interceptor'
 import { NgxLocalStorageModule } from 'ngx-localstorage'
+import { GRPC_MY_STORE_FILE_CLIENT_SETTINGS } from 'src/proto/filestore.pbconf'
 @NgModule({
   declarations: [
     AppComponent,
@@ -99,6 +100,12 @@ import { NgxLocalStorageModule } from 'ngx-localstorage'
       provide: GRPC_REPORT_CLIENT_SETTINGS,
       useValue: {
         host: 'https://stvg.vn:59022',
+      } as GrpcClientSettings,
+    },
+    {
+      provide: GRPC_MY_STORE_FILE_CLIENT_SETTINGS,
+      useValue: {
+        host: 'https://office.stvg.vn:59061'
       } as GrpcClientSettings,
     },
     {

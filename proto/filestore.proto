@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+option csharp_namespace = "ServiceStoreFile";
+
+package storefile;
+
+service MyStoreFile {
+    rpc Upload (UploadRequest) returns (UploadRely);
+    rpc Download (DownloadRequest) returns (DownloadRely);
+    rpc UploadBase64 (UploadRequestBase64) returns (UploadRely);
+    rpc DownloadBase64 (DownloadRequest) returns (DownloadBase64Rely);
+
+    rpc Uploads (MultiUploadRequest) returns (MultiUploadRely);
+    rpc Downloads (MultiDownloadRequest) returns (MultiDownloadRely);
+    rpc UploadBase64s (MultiUploadRequestBase64) returns (MultiUploadRely);
+    rpc DownloadBase64s (MultiDownloadRequest) returns (MultiDownloadBase64Rely);
+}
+
+enum MyStatus {
+    Success = 0;
+    Fail = 1;
+}
+
+message UploadRequest {
+    string name = 1;
+    string file = 2;
+    bytes data = 3;
+    string rule = 4;
+}
+
+message ItemUploadRequest {
+    string file = 1;
+    bytes data = 2;
+}
+
+message MultiUploadRequest {
+    string name = 1;
+    string rule = 2;
+    repeated ItemUploadRequest items = 3;
+}
+
+message UploadRequestBase64 {
+    string name = 1;
+    string file = 2;
+    string data = 3;
+    string rule = 4;
+}
+
+message ItemUploadRequestBase64 {
+    string file = 1;
+    string data = 2;
+}
+
+message MultiUploadRequestBase64 {
+    string name = 1;
+    string rule = 2;
+    repeated ItemUploadRequestBase64 items = 3;
+}
+
+message UploadRely {
+    MyStatus status = 1;
+    string code = 2;
+}
+
+message ItemUploadRely {
+    string name = 1;
+    string code = 2;
+}
+
+message MultiUploadRely {
+    MyStatus status = 1;
+    repeated ItemUploadRely items = 2;
+}
+
+message DownloadRequest {
+    string name = 1;
+    string code = 2;
+}
+
+message  MultiDownloadRequest {
+    string name = 1;
+    repeated string code = 2;
+}
+
+message DownloadRely {
+    MyStatus status = 1;
+    string file = 2;
+    bytes data = 3;
+}
+
+message ItemDownloadRely {
+    string file = 1;
+    bytes data = 2;
+}
+
+message MultiDownloadRely {
+     MyStatus status = 1;
+     repeated ItemDownloadRely items = 2;
+}
+
+message DownloadBase64Rely {
+    MyStatus status = 1;
+    string file = 2;
+    string data = 3;
+}
+
+message ItemDownloadBase64Rely {
+    string file = 1;
+    string data = 2;
+}
+
+message MultiDownloadBase64Rely {
+     MyStatus status = 1;
+     repeated ItemDownloadBase64Rely items = 2;
+}
